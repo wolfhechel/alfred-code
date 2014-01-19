@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>net.okuejina.alfred.code</string>
+	<key>connections</key>
+	<dict>
+		<key>CAD6AEB0-4C5F-4FD1-8D80-C91CDD387400</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>5A4E0115-A12E-440F-9F21-2AF8FC8C5F14</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Pontus Carlsson &lt;jonet@okuejina.net&gt;</string>
+	<key>description</key>
+	<string>Lists projects from common IDE's</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Code</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>4</integer>
+				<key>script</key>
+				<string>import alfreds_code
+
+alfreds_code.open("{query}")</string>
+				<key>type</key>
+				<integer>3</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>5A4E0115-A12E-440F-9F21-2AF8FC8C5F14</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>4</integer>
+				<key>keyword</key>
+				<string>code</string>
+				<key>runningsubtext</key>
+				<string>Hunting for projects</string>
+				<key>script</key>
+				<string>import alfreds_code
+
+print alfreds_code.lookup("{query}")</string>
+				<key>subtext</key>
+				<string>List recent projects</string>
+				<key>title</key>
+				<string>Code</string>
+				<key>type</key>
+				<integer>3</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>CAD6AEB0-4C5F-4FD1-8D80-C91CDD387400</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>5A4E0115-A12E-440F-9F21-2AF8FC8C5F14</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+		<key>CAD6AEB0-4C5F-4FD1-8D80-C91CDD387400</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string>www.okuejina.net</string>
+</dict>
+</plist>
