@@ -39,7 +39,7 @@ class BaseFinder(object):
     def create_item(self, name, path):
         return alfred.Item(
             uid='%s:%s' % (self.uid, name),
-            arg='%s %s' % (self.application, path),
+            arg='%s %s' % (self.uid, path),
             autocomplete=name,
             title=name,
             subtitle=path,

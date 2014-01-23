@@ -1,33 +1,13 @@
-from difflib import SequenceMatcher
 import subprocess
 from alfred import render
+from fuzzy import FuzzyMatcher
 
 import finders
 
 def filter_items(items, query):
-    if not query:
-        return items
+    fuzzy = FuzzyMatcher(query)
 
-    ratio = 0.35
-
-    sequence_matcher = SequenceMatcher()
-    sequence_matcher.set_seq2(query.lower())
-
-    matched_items = {}
-
-    for item in items:
-        sequence_matcher.set_seq1(item.title.lower())
-
-        match_ratio = sequence_matcher.ratio()
-
-        if match_ratio >= ratio:
-            matched_items[item] = match_ratio
-
-    return sorted(
-        matched_items.keys(),
-        key=lambda i: -matched_items[i]
-    )
-
+    return fuzzy.filter(items, key=lambda x: x.title.lower())
 
 def lookup(query):
     query = query.strip().lower()
@@ -49,6 +29,9 @@ def lookup(query):
 
             if finder_uid == query:
                 query = ''
+        else:
+            for finder in available_finders:
+                items.append(finder.filter_item)
 
         for finder in available_finders:
             assert isinstance(finder, finders.BaseFinder)
@@ -56,19 +39,25 @@ def lookup(query):
             items.extend(finder.find_items(query))
 
         items = filter_items(items, query)
-
     else:
         for finder in available_finders:
             items.append(finder.filter_item)
 
+
+
     return render(items)
 
 def open(query):
-    application, project_path = query.split(' ', 1)
+    finder_uid, project_path = query.split(' ', 1)
 
-    return subprocess.call(['open', '-a',  application, project_path])
+    finder = finders.get_finder(finder_uid)
+
+    return subprocess.call(['open', '-a',  finder.application, project_path])
 
 if __name__ == '__main__':
     import sys
 
-    print lookup(' '.join(sys.argv[1:]))
+    query = ' '.join(sys.argv[1:])
+    print query
+
+    print open(query)
