@@ -1,5 +1,4 @@
 import pkgutil
-
 import AppKit
 
 from ._base import BaseFinder
@@ -16,12 +15,5 @@ for module_loader, name, ispkg in finders:
 
 workspace = AppKit.NSWorkspace.sharedWorkspace()
 
-def get_available_finders():
-    return [c() for c in BaseFinder.child_classes.values() if c.is_available]
-
-def get_finder(finder_uid):
-    available_finders = get_available_finders()
-
-    for finder in available_finders:
-        if finder.uid == finder_uid:
-            return finder
+def get_available_finders(wf):
+    return [c(wf) for c in BaseFinder.child_classes.values() if c.is_available]

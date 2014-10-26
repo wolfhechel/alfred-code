@@ -1,8 +1,7 @@
-import alfred
 from os import path
+import subprocess
 import AppKit
 import Foundation
-import subprocess
 
 workspace = AppKit.NSWorkspace.sharedWorkspace()
 
@@ -36,7 +35,7 @@ class FinderType(type):
 
         if '__metaclass__' in dict_ and dict_['__metaclass__'] == FinderType:
             new_class.child_classes = {}
-        elif hasattr(new_class, 'application_id'):
+        elif getattr(new_class, 'application_id', None):
             new_class.child_classes[name] = new_class
 
             cls.prepare_new_class(new_class)
@@ -45,9 +44,8 @@ class FinderType(type):
 
     def prepare_new_class(cls):
         try:
-            cls.app_icon = alfred.Icon()
             cls.app_name, \
-            cls.app_icon.iconpath = query_application_id_for_name_and_icon(cls.application_id)
+            cls.app_icon_path = query_application_id_for_name_and_icon(cls.application_id)
         except ValueError:
             cls.is_available = False
         else:
@@ -58,16 +56,24 @@ class BaseFinder(object):
 
     __metaclass__ = FinderType
 
+    application_id = None
+
     _user_preferences_path = path.expanduser('~/Library/Preferences')
+
+    def __init__(self, wf):
+        self.workflow = wf
 
     def get_preferences_file(self, *args):
         return path.join(self._user_preferences_path, *args)
 
-    def find_items(self, query):
+    def find_items(self):
         raise NotImplementedError
 
+    def open_command(self, project_path):
+        return ('open', '-b',  self.application_id, project_path)
+
     def open(self, project_path):
-        subprocess.call(['open', '-b',  self.application_id, project_path])
+        subprocess.call(self.open_command(project_path))
 
     @property
     def uid(self):
@@ -80,25 +86,18 @@ class BaseFinder(object):
         )
 
     def icon_for_path(self, path):
-        return self.app_icon
+        return (self.app_icon_path, None)
 
     def create_item(self, name, path):
-        return alfred.Item(
-            uid='%s:%s' % (self.uid, name),
-            arg='%s %s' % (self.uid, path),
-            autocomplete=name,
-            title=name,
-            subtitle=path,
-            icon=self.icon_for_path(path)
-        )
+        icon, icontype = self.icon_for_path(path)
 
-    @property
-    def filter_item(self):
-        return alfred.Item(
-            uid=self.uid,
-            arg=self.uid,
-            autocomplete=self.uid + ' ',
-            valid=False,
-            title=self.app_name,
-            icon=self.app_icon
-        )
+        return {
+            'uid':          '%s:%s' % (self.uid, name),
+            'arg':          '%s %s' % (self.uid, path),
+            'autocomplete': name,
+            'title':        name,
+            'subtitle':     path,
+            'icon':         icon,
+            'icontype':     icontype,
+            'valid':        True
+        }

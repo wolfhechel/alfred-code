@@ -1,5 +1,5 @@
+from os import path
 import Foundation
-import alfred
 
 from .._base import BaseFinder
 
@@ -10,35 +10,26 @@ class XCodeFinder(BaseFinder):
 
     SHARED_FILE_LIST = 'com.apple.dt.Xcode.LSSharedFileList.plist'
 
-    _open_plist = None
+    def icon_for_path(self, path):
+        return (path, 'fileicon')
 
-    def __init__(self):
+    def find_items(self):
         shared_file_list_path = self.get_preferences_file(self.SHARED_FILE_LIST)
 
-        self._open_plist = Foundation.NSDictionary.dictionaryWithContentsOfFile_(shared_file_list_path)
+        plist = self.open_plist(shared_file_list_path)
 
-        self.validate_structure()
-
-    def validate_structure(self):
-        if 'RecentDocuments' in self._open_plist:
-            recent_documents = self._open_plist['RecentDocuments']
-
-            if 'CustomListItems' in recent_documents:
-                return
-
-        raise ValueError('Invalid document structure of plist file')
-
-    def icon_for_path(self, path):
-        return alfred.Icon(filepath=path)
-
-    def find_items(self, query):
-        list_items = self._open_plist.get('RecentDocuments', {}).get('CustomListItems', {})
+        list_items = plist.get('RecentDocuments', {}).get('CustomListItems', {})
 
         for list_item in list_items:
-            name, path = self.parse_item(list_item)
-            yield self.create_item(
-                name, path
-            )
+            name, project_path = self.parse_item(list_item)
+
+            if path.exists(project_path):
+                yield self.create_item(
+                    name, project_path
+                )
+
+    def open_plist(self, plist_path):
+        return Foundation.NSDictionary.dictionaryWithContentsOfFile_(plist_path)
 
     def parse_item(self, item):
         bookmark = item['Bookmark']

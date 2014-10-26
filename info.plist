@@ -6,17 +6,30 @@
 	<string>net.okuejina.alfred.code</string>
 	<key>connections</key>
 	<dict>
-		<key>CAD6AEB0-4C5F-4FD1-8D80-C91CDD387400</key>
+		<key>871A5B4B-7129-4334-99C2-5AF53ED17F9D</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>5A4E0115-A12E-440F-9F21-2AF8FC8C5F14</string>
+				<string>CAD6AEB0-4C5F-4FD1-8D80-C91CDD387400</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
 			</dict>
 		</array>
+		<key>CAD6AEB0-4C5F-4FD1-8D80-C91CDD387400</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>D7F576DF-67BE-43F5-B870-ECB9544F3088</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+		</array>
+		<key>D7F576DF-67BE-43F5-B870-ECB9544F3088</key>
+		<array/>
 	</dict>
 	<key>createdby</key>
 	<string>Pontus Carlsson &lt;jonet@okuejina.net&gt;</string>
@@ -32,20 +45,45 @@
 			<key>config</key>
 			<dict>
 				<key>escaping</key>
-				<integer>4</integer>
+				<integer>0</integer>
 				<key>script</key>
-				<string>import alfreds_code
-
-alfreds_code.open("{query}")</string>
+				<string>./code.py --open "{query}"</string>
 				<key>type</key>
-				<integer>3</integer>
+				<integer>0</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>5A4E0115-A12E-440F-9F21-2AF8FC8C5F14</string>
+			<string>D7F576DF-67BE-43F5-B870-ECB9544F3088</string>
 			<key>version</key>
 			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>hotkey</key>
+				<integer>10</integer>
+				<key>hotmod</key>
+				<integer>524288</integer>
+				<key>hotstring</key>
+				<string>§</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>871A5B4B-7129-4334-99C2-5AF53ED17F9D</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -59,15 +97,13 @@ alfreds_code.open("{query}")</string>
 				<key>runningsubtext</key>
 				<string>Hunting for projects</string>
 				<key>script</key>
-				<string>import alfreds_code
-
-print alfreds_code.lookup("{query}")</string>
+				<string>./code.py --query "{query}"</string>
 				<key>subtext</key>
 				<string>List recent projects</string>
 				<key>title</key>
 				<string>Code</string>
 				<key>type</key>
-				<integer>3</integer>
+				<integer>0</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -83,12 +119,17 @@ print alfreds_code.lookup("{query}")</string>
 	<string></string>
 	<key>uidata</key>
 	<dict>
-		<key>5A4E0115-A12E-440F-9F21-2AF8FC8C5F14</key>
+		<key>871A5B4B-7129-4334-99C2-5AF53ED17F9D</key>
 		<dict>
 			<key>ypos</key>
 			<real>10</real>
 		</dict>
 		<key>CAD6AEB0-4C5F-4FD1-8D80-C91CDD387400</key>
+		<dict>
+			<key>ypos</key>
+			<real>10</real>
+		</dict>
+		<key>D7F576DF-67BE-43F5-B870-ECB9544F3088</key>
 		<dict>
 			<key>ypos</key>
 			<real>10</real>

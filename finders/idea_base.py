@@ -13,10 +13,10 @@ class IdeaBaseFinder(BaseFinder):
     xpath = "//component[@name='RecentDirectoryProjectsManager']" \
             "/option[@name='recentPaths']/list/option/@value"
 
-    def find_items(self, query):
-        preferendes_file_path = self.get_preferences_file(self.preferences_folder, 'options', 'other.xml')
+    def find_items(self):
+        preferences_file_path = self.get_preferences_file(self.preferences_folder, 'options', 'other.xml')
 
-        with open(preferendes_file_path, 'r') as f:
+        with open(preferences_file_path, 'r') as f:
             xml = etree.parse(f)
 
         root = xml.getroot()
@@ -25,12 +25,14 @@ class IdeaBaseFinder(BaseFinder):
 
         for project_path in projects:
             project_path = project_path.replace('$USER_HOME$', self.USER_HOME)
-            project_name = self.get_project_name(project_path)
 
-            yield self.create_item(
-                project_name,
-                project_path
-            )
+            if path.exists(project_path):
+                project_name = self.get_project_name(project_path)
+
+                yield self.create_item(
+                    project_name,
+                    project_path
+                )
 
     def get_project_name(self, project_path):
         name_file = path.join(project_path, '.idea', '.name')
