@@ -2,6 +2,7 @@ import alfred
 from os import path
 import AppKit
 import Foundation
+import subprocess
 
 workspace = AppKit.NSWorkspace.sharedWorkspace()
 
@@ -64,6 +65,9 @@ class BaseFinder(object):
 
     def find_items(self, query):
         raise NotImplementedError
+
+    def open(self, project_path):
+        subprocess.call(['open', '-b',  self.application_id, project_path])
 
     @property
     def uid(self):

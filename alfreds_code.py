@@ -1,4 +1,3 @@
-import subprocess
 from alfred import render
 from fuzzy import FuzzyMatcher
 
@@ -50,4 +49,4 @@ def open(query):
 
     finder = finders.get_finder(finder_uid)
 
-    return subprocess.call(['open', '-b',  finder.application_id, project_path])
+    finder.open(project_path)
