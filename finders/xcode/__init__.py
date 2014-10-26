@@ -12,8 +12,6 @@ class XCodeFinder(BaseFinder):
 
     _open_plist = None
 
-    items = []
-
     def __init__(self):
         shared_file_list_path = self.get_preferences_file(self.SHARED_FILE_LIST)
 
@@ -38,11 +36,9 @@ class XCodeFinder(BaseFinder):
 
         for list_item in list_items:
             name, path = self.parse_item(list_item)
-            self.items.append(self.create_item(
+            yield self.create_item(
                 name, path
-            ))
-
-        return self.items
+            )
 
     def parse_item(self, item):
         bookmark = item['Bookmark']

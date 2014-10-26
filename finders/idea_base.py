@@ -23,18 +23,14 @@ class IdeaBaseFinder(BaseFinder):
 
         projects = root.xpath(self.xpath)
 
-        items = []
-
         for project_path in projects:
             project_path = project_path.replace('$USER_HOME$', self.USER_HOME)
             project_name = self.get_project_name(project_path)
 
-            items.append(self.create_item(
+            yield self.create_item(
                 project_name,
                 project_path
-            ))
-
-        return items
+            )
 
     def get_project_name(self, project_path):
         name_file = path.join(project_path, '.idea', '.name')
