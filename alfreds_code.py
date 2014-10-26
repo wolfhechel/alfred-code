@@ -43,8 +43,6 @@ def lookup(query):
         for finder in available_finders:
             items.append(finder.filter_item)
 
-
-
     return render(items)
 
 def open(query):
@@ -52,12 +50,4 @@ def open(query):
 
     finder = finders.get_finder(finder_uid)
 
-    return subprocess.call(['open', '-a',  finder.application, project_path])
-
-if __name__ == '__main__':
-    import sys
-
-    query = ' '.join(sys.argv[1:])
-    print query
-
-    print open(query)
+    return subprocess.call(['open', '-b',  finder.application_id, project_path])

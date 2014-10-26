@@ -1,5 +1,7 @@
 import pkgutil
 
+import AppKit
+
 from ._base import BaseFinder
 
 finders = pkgutil.walk_packages(
@@ -12,8 +14,10 @@ for module_loader, name, ispkg in finders:
     if not name.endswith('_base'):
         __import__(name)
 
+workspace = AppKit.NSWorkspace.sharedWorkspace()
+
 def get_available_finders():
-    return [c() for c in BaseFinder.child_classes.values() if c.is_available()]
+    return [c() for c in BaseFinder.child_classes.values() if c.is_available]
 
 def get_finder(finder_uid):
     available_finders = get_available_finders()

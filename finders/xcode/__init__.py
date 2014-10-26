@@ -1,28 +1,25 @@
-from os import path
+import Foundation
+import alfred
 
-from Foundation import *
 from .._base import BaseFinder
-
-
-class InvalidItem(Exception):
-    pass
 
 
 class XCodeFinder(BaseFinder):
 
-    application = 'Xcode.app'
+    application_id = 'com.apple.dt.Xcode'
 
-    _PATH = path.expanduser('~/Library/Preferences/com.apple.dt.Xcode.LSSharedFileList.plist')
+    SHARED_FILE_LIST = 'com.apple.dt.Xcode.LSSharedFileList.plist'
 
     _open_plist = None
 
     items = []
 
     def __init__(self):
-        self._open_plist = NSDictionary.dictionaryWithContentsOfFile_(self._PATH)
+        shared_file_list_path = self.get_preferences_file(self.SHARED_FILE_LIST)
+
+        self._open_plist = Foundation.NSDictionary.dictionaryWithContentsOfFile_(shared_file_list_path)
 
         self.validate_structure()
-
 
     def validate_structure(self):
         if 'RecentDocuments' in self._open_plist:
@@ -33,12 +30,11 @@ class XCodeFinder(BaseFinder):
 
         raise ValueError('Invalid document structure of plist file')
 
-    @staticmethod
-    def is_available():
-        return path.isfile(XCodeFinder._PATH)
+    def icon_for_path(self, path):
+        return alfred.Icon(filepath=path)
 
     def find_items(self, query):
-        list_items = self._open_plist['RecentDocuments']['CustomListItems']
+        list_items = self._open_plist.get('RecentDocuments', {}).get('CustomListItems', {})
 
         for list_item in list_items:
             name, path = self.parse_item(list_item)
@@ -52,7 +48,7 @@ class XCodeFinder(BaseFinder):
         bookmark = item['Bookmark']
         name = item['Name']
 
-        url, failure, error = NSURL.alloc().initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_(
+        url, failure, error = Foundation.NSURL.alloc().initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_(
             bookmark, (1 << 8), None, None, None
         )
 
