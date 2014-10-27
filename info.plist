@@ -27,6 +27,30 @@
 				<key>modifiersubtext</key>
 				<string></string>
 			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>D7CD6FF2-DF72-48A9-8E1B-2F288B03460A</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Open project in a new terminal window</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>D9B1AFDA-BD65-4AEC-A7C1-763988F782AF</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>C66D545D-F293-489E-B99C-C4A6FDC0DED5</string>
+				<key>modifiers</key>
+				<integer>262144</integer>
+				<key>modifiersubtext</key>
+				<string>Open project in finder</string>
+			</dict>
 		</array>
 		<key>D7F576DF-67BE-43F5-B870-ECB9544F3088</key>
 		<array/>
@@ -114,6 +138,58 @@
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>cd "$(echo {query} | cut -d' ' -f2-)" &amp;&amp; clear</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.terminalcommand</string>
+			<key>uid</key>
+			<string>D7CD6FF2-DF72-48A9-8E1B-2F288B03460A</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>applescript</key>
+				<string>on alfred_script(q)
+	tell application "iTerm" to activate
+	tell application "System Events"
+    		keystroke "§" using command down
+	end tell
+end alfred_script</string>
+				<key>cachescript</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.applescript</string>
+			<key>uid</key>
+			<string>D9B1AFDA-BD65-4AEC-A7C1-763988F782AF</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>open -R "$(echo {query} | cut -d' ' -f2-)"</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>C66D545D-F293-489E-B99C-C4A6FDC0DED5</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
@@ -124,15 +200,30 @@
 			<key>ypos</key>
 			<real>10</real>
 		</dict>
+		<key>C66D545D-F293-489E-B99C-C4A6FDC0DED5</key>
+		<dict>
+			<key>ypos</key>
+			<real>360</real>
+		</dict>
 		<key>CAD6AEB0-4C5F-4FD1-8D80-C91CDD387400</key>
 		<dict>
 			<key>ypos</key>
 			<real>10</real>
 		</dict>
+		<key>D7CD6FF2-DF72-48A9-8E1B-2F288B03460A</key>
+		<dict>
+			<key>ypos</key>
+			<real>120</real>
+		</dict>
 		<key>D7F576DF-67BE-43F5-B870-ECB9544F3088</key>
 		<dict>
 			<key>ypos</key>
 			<real>10</real>
+		</dict>
+		<key>D9B1AFDA-BD65-4AEC-A7C1-763988F782AF</key>
+		<dict>
+			<key>ypos</key>
+			<real>240</real>
 		</dict>
 	</dict>
 	<key>webaddress</key>
