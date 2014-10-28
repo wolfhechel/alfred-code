@@ -6,6 +6,8 @@
 	<string>net.okuejina.alfred.code</string>
 	<key>connections</key>
 	<dict>
+		<key>23D5876B-A9C1-4310-A721-50F42A53B1A4</key>
+		<array/>
 		<key>871A5B4B-7129-4334-99C2-5AF53ED17F9D</key>
 		<array>
 			<dict>
@@ -50,6 +52,14 @@
 				<integer>262144</integer>
 				<key>modifiersubtext</key>
 				<string>Open project in finder</string>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>23D5876B-A9C1-4310-A721-50F42A53B1A4</string>
+				<key>modifiers</key>
+				<integer>8388608</integer>
+				<key>modifiersubtext</key>
+				<string>Ignore this project</string>
 			</dict>
 		</array>
 		<key>D7F576DF-67BE-43F5-B870-ECB9544F3088</key>
@@ -190,11 +200,33 @@ end alfred_script</string>
 			<key>version</key>
 			<integer>0</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>./code.py --ignore "{query}"</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>23D5876B-A9C1-4310-A721-50F42A53B1A4</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
 	<key>uidata</key>
 	<dict>
+		<key>23D5876B-A9C1-4310-A721-50F42A53B1A4</key>
+		<dict>
+			<key>ypos</key>
+			<real>480</real>
+		</dict>
 		<key>871A5B4B-7129-4334-99C2-5AF53ED17F9D</key>
 		<dict>
 			<key>ypos</key>
