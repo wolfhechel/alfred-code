@@ -24,9 +24,10 @@ class XCodeFinder(BaseFinder):
 
         item_config = super(XCodeFinder, self).create_item(name, path_or_error, valid, icon)
 
-        item_config.update({
-            'arg': 'failure:' + name
-        })
+        if not valid:
+            item_config.update({
+                'arg': 'failure:' + name
+            })
 
         return item_config
 
