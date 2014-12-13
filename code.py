@@ -12,8 +12,11 @@ def query(finders, query, wf):
 
     ignored_items = get_ignored_items(wf)
 
+    def exclude_item(item):
+        return d.get('arg', None) in ignored_items
+
     for finder in finders:
-        items.extend([d for d in finder.find_items() if d['arg'] not in ignored_items])
+        items.extend([d for d in finder.find_items() if not exclude_item(d)])
 
     if query:
         items = wf.filter(query, items, lambda i: i['title'])

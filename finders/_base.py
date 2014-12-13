@@ -88,10 +88,10 @@ class BaseFinder(object):
     def icon_for_path(self, path):
         return (self.app_icon_path, None)
 
-    def create_item(self, name, path):
-        icon, icontype = self.icon_for_path(path)
+    def create_item(self, name, path, valid=True, icon=None):
+        icon, icontype = self.icon_for_path(path) if icon is None else icon
 
-        return {
+        item_config = {
             'uid':          '%s:%s' % (self.uid, name),
             'arg':          '%s %s' % (self.uid, path),
             'autocomplete': name,
@@ -99,5 +99,7 @@ class BaseFinder(object):
             'subtitle':     path,
             'icon':         icon,
             'icontype':     icontype,
-            'valid':        True
+            'valid':        valid
         }
+
+        return item_config
