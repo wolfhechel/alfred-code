@@ -229,7 +229,16 @@ end alfred_script</string>
 				<key>escaping</key>
 				<integer>0</integer>
 				<key>script</key>
-				<string>cd "$(echo {query} | cut -d' ' -f2-)"; clear</string>
+				<string>project_path="$(echo {query} | cut -d' ' -f2-)"
+
+project_extension=${project_path#*.}
+
+if [ $project_extension = xcworkspace ] ||
+   [ $project_extension = xcproject ]; then
+	project_path="$(dirname "${project_path}")"
+fi
+
+cd "${project_path}"; clear</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.terminalcommand</string>
