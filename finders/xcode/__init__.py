@@ -36,23 +36,24 @@ class XCodeFinder(BaseFinder):
 
         plist = self.open_plist(shared_file_list_path)
 
-        list_items = plist.get('RecentDocuments', {}).get('CustomListItems', {})
+        if plist:
+            list_items = plist.get('RecentDocuments', {}).get('CustomListItems', {})
 
-        for list_item in list_items:
-            information, valid = self.parse_item(list_item)
+            for list_item in list_items:
+                information, valid = self.parse_item(list_item)
 
-            if valid:
-                name, project_path = information
+                if valid:
+                    name, project_path = information
 
-                if path.exists(project_path):
+                    if path.exists(project_path):
+                        yield self.create_item(
+                            name, project_path
+                        )
+                else:
+                    name, error_reason = information
                     yield self.create_item(
-                        name, project_path
+                        name, error_reason, valid=False
                     )
-            else:
-                name, error_reason = information
-                yield self.create_item(
-                    name, error_reason, valid=False
-                )
 
     def open_plist(self, plist_path):
         return Foundation.NSDictionary.dictionaryWithContentsOfFile_(plist_path)
