@@ -1,4 +1,8 @@
-from lxml import etree
+try:
+    from xml.etree import cElementTree as ET
+except ImportError:
+    from xml.etree import ElementTree as ET
+
 from os import path
 from glob import glob
 
@@ -11,8 +15,8 @@ class IdeaBaseFinder(BaseFinder):
 
     USER_HOME = path.expanduser('~')
 
-    xpath = "//component[@name='RecentDirectoryProjectsManager']" \
-            "/option[@name='recentPaths']/list/option/@value"
+    xpath = ".//component[@name='RecentDirectoryProjectsManager']" \
+            "/option[@name='recentPaths']/list/option"
 
     def expand_preferences_folder(self):
         glob_path = path.join(self._user_preferences_path, self.preferences_folder)
@@ -31,14 +35,12 @@ class IdeaBaseFinder(BaseFinder):
 
         preferences_file_path = path.join(preferences_folder, 'options', 'other.xml')
 
-        with open(preferences_file_path, 'r') as f:
-            xml = etree.parse(f)
+        xml = ET.parse(preferences_file_path)
 
-        root = xml.getroot()
+        projects = xml.findall(self.xpath)
 
-        projects = root.xpath(self.xpath)
-
-        for project_path in projects:
+        for project in projects:
+            project_path = project.get('value')
             project_path = project_path.replace('$USER_HOME$', self.USER_HOME)
 
             if path.exists(project_path):
