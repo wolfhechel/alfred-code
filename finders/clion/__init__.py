@@ -4,4 +4,4 @@ class CLionFinder(IdeaBaseFinder):
 
     application_id = 'com.jetbrains.CLion'
 
-    preferences_folder = 'clion10'
+    preferences_folder = 'clion*'

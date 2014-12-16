@@ -5,4 +5,4 @@ class PyCharmFinder(IdeaBaseFinder):
 
     application_id = 'com.jetbrains.pycharm'
 
-    preferences_folder = 'PyCharm30'
+    preferences_folder = 'PyCharm*'

@@ -1,5 +1,6 @@
 from lxml import etree
 from os import path
+from glob import glob
 
 from ._base import BaseFinder
 
@@ -13,8 +14,22 @@ class IdeaBaseFinder(BaseFinder):
     xpath = "//component[@name='RecentDirectoryProjectsManager']" \
             "/option[@name='recentPaths']/list/option/@value"
 
+    def expand_preferences_folder(self):
+        glob_path = path.join(self._user_preferences_path, self.preferences_folder)
+
+        matches = glob(glob_path)
+
+        return matches[-1] if matches else glob_path
+
+
     def find_items(self):
-        preferences_file_path = self.get_preferences_file(self.preferences_folder, 'options', 'other.xml')
+        preferences_folder = self.workflow.cached_data(
+            self.preferences_folder,
+            self.expand_preferences_folder,
+            max_age=60 * 60 * 24
+        )
+
+        preferences_file_path = path.join(preferences_folder, 'options', 'other.xml')
 
         with open(preferences_file_path, 'r') as f:
             xml = etree.parse(f)

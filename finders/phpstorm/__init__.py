@@ -4,4 +4,4 @@ class PhpStormFinder(IdeaBaseFinder):
 
     application_id = 'com.jetbrains.PhpStorm'
 
-    preferences_folder = 'WebIde70'
+    preferences_folder = 'WebIde*'
