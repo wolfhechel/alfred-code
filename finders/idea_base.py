@@ -25,6 +25,10 @@ class IdeaBaseFinder(BaseFinder):
 
         return matches[-1] if matches else glob_path
 
+    possible_file_paths = [
+        ('options', 'recentProjectDirectories.xml'),
+        ('options', 'other.xml'),
+    ]
 
     def find_items(self):
         preferences_folder = self.workflow.cached_data(
@@ -33,23 +37,35 @@ class IdeaBaseFinder(BaseFinder):
             max_age=60 * 60 * 24
         )
 
-        preferences_file_path = path.join(preferences_folder, 'options', 'other.xml')
+        def find_preferences_file_path():
+            for possible_file_path in self.possible_file_paths:
+                file_path = path.join(preferences_folder, *possible_file_path)
 
-        xml = ET.parse(preferences_file_path)
+                if path.exists(file_path):
+                    return file_path
 
-        projects = xml.findall(self.xpath)
+        preferences_file_path = self.workflow.cached_data(
+            self.preferences_folder + 'file_path',
+            find_preferences_file_path,
+            max_age=60 * 60 * 24
+        )
 
-        for project in projects:
-            project_path = project.get('value')
-            project_path = project_path.replace('$USER_HOME$', self.USER_HOME)
+        if preferences_file_path:
+            xml = ET.parse(preferences_file_path)
 
-            if path.exists(project_path):
-                project_name = self.get_project_name(project_path)
+            projects = xml.findall(self.xpath)
 
-                yield self.create_item(
-                    project_name,
-                    project_path
-                )
+            for project in projects:
+                project_path = project.get('value')
+                project_path = project_path.replace('$USER_HOME$', self.USER_HOME)
+
+                if path.exists(project_path):
+                    project_name = self.get_project_name(project_path)
+
+                    yield self.create_item(
+                        project_name,
+                        project_path
+                    )
 
     def get_project_name(self, project_path):
         name_file = path.join(project_path, '.idea', '.name')
